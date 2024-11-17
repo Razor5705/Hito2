@@ -1,4 +1,4 @@
-proyecto_encuestas/
+Hito2/
 ├── main.py          # Archivo principal de la aplicación
 ├── modulos/         # Carpeta para módulos adicionales
 │   ├── conexion_bd.py  # Módulo para manejar conexiones a la BD
