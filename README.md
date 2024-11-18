@@ -80,8 +80,8 @@ Analiza encuestas con problemas frecuentes como tensión alta y dolores de cabez
 ### Genera un archivo Excel con todos los datos mostrados en el Treeview.
 
 # Gráficos
-## Gráficos de Barras: C
-onsumo semanal por edad.
+## Gráficos de Barras: 
+Consumo semanal por edad.
 ## Gráficos de Líneas: 
 Pérdidas de control por edad.
 ## Gráficos Circulares: 
@@ -95,14 +95,11 @@ Capturas de Pantalla
 
 Ejemplo de Gráficos:
 [Graficos]
-[Barras]
-(Recursos/Grafico_Barras.png)
+[Barras](Recursos/Grafico_Barras.png)
 
-[Lineas]
-(Recursos/Grafico_Lineas.png)
+[Lineas](Recursos/Grafico_Lineas.png)
 
-[Grafico Circular]
-(Recursos/Grafico_Circular.png)
+[Grafico Circular](Recursos/Grafico_Circular.png)
 
 ```
 Instrucciones de Uso
