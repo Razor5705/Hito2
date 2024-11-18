@@ -40,7 +40,11 @@ def limpiar_treeview(tree):
 def crear_encuesta(connection, entry_fields, treeview):
     cursor = connection.cursor()
     values = tuple(field.get() for field in entry_fields)
-    query = """INSERT INTO ENCUESTA (edad, Sexo, BebidasSemana, CervezasSemana, BebidasFinSemana, BebidasDestiladasSemana, VinosSemana, PerdidasControl, DiversionDependenciaAlcohol, ProblemasDigestivos, TensionAlta, DolorCabeza)
+    query = """INSERT INTO ENCUESTA (edad, Sexo, BebidasSemana,
+      CervezasSemana, BebidasFinSemana, 
+      BebidasDestiladasSemana, VinosSemana,
+        PerdidasControl, DiversionDependenciaAlcohol, 
+        ProblemasDigestivos, TensionAlta, DolorCabeza)
                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     cursor.execute(query, values)
     connection.commit()
@@ -65,33 +69,26 @@ def leer_encuestas(connection, tree):
 def actualizar_encuesta(connection, entry_fields, tree):
     try:
         # Obtener el ID de la encuesta desde la fila seleccionada del Treeview
-        selected_item = tree.selection()
-        
+        selected_item = tree.selection() 
         if not selected_item:
             messagebox.showerror("Error", "Debe seleccionar una encuesta en el Treeview para actualizar.")
             return
-
         # Obtener el ID de la encuesta de la fila seleccionada (asumiendo que el ID está en la primera columna)
-        id_encuesta = tree.item(selected_item[0])['values'][0]
-        
+        id_encuesta = tree.item(selected_item[0])['values'][0] 
         # Validar que el ID no esté vacío
         if not id_encuesta:
             messagebox.showerror("Error", "Debe seleccionar una encuesta válida.")
             return
-        
         # Recoger los valores de los campos de entrada (excluir el campo ID, que ya tenemos)
         values = tuple(field.get().strip() for field in entry_fields)
-        
         # Agregar el ID al final de los valores
         values = values + (id_encuesta,)
-
         # Imprimir los valores para depuración
         print("Valores obtenidos:", values)
 
         # Validar que el número de valores es correcto (13: 12 de los campos + 1 del ID)
         if len(values) != 13:
             raise ValueError(f"Se esperaban 13 valores, pero se proporcionaron {len(values)}.")
-
         # Validar que no haya campos vacíos
         if any(value == "" for value in values):
             messagebox.showerror("Error", "Todos los campos deben estar llenos.")
@@ -106,18 +103,14 @@ def actualizar_encuesta(connection, entry_fields, tree):
             DolorCabeza=%s 
         WHERE idEncuesta=%s
         """
-
         # Ejecutar la consulta
         with connection.cursor() as cursor:
             cursor.execute(query, values)
             connection.commit()
-
         # Mostrar mensaje de éxito
         messagebox.showinfo("Actualizar Encuesta", "Encuesta actualizada exitosamente")
-
         # Recargar las encuestas en el Treeview
         leer_encuestas(connection, tree)
-
     except ValueError as ve:
         # Captura errores de validación como ValueError
         messagebox.showerror("Error de validación", str(ve))
@@ -133,30 +126,25 @@ def eliminar_encuesta(connection, entry_fields, treeview):
     try:
         # Obtener el ID de la encuesta desde el Treeview (fila seleccionada)
         selected_item = treeview.selection()
-        
         if not selected_item:
             messagebox.showerror("Error", "Debe seleccionar una encuesta para eliminar.")
             return
-        
         # Obtener el ID de la encuesta de la fila seleccionada en el Treeview
-        id_encuesta = treeview.item(selected_item)["values"][0]  # Suponiendo que el ID está en la primera columna
+        id_encuesta = treeview.item(selected_item)["values"][0]  
+        # Suponiendo que el ID está en la primera columna
 
         # Verificar que el ID no esté vacío
         if not id_encuesta:
             messagebox.showerror("Error", "No se pudo obtener el ID de la encuesta.")
             return
-
         # Ejecutar la consulta de eliminación
         cursor = connection.cursor()
         cursor.execute("DELETE FROM ENCUESTA WHERE idEncuesta = %s", (id_encuesta,))
         connection.commit()
-
         # Mostrar mensaje de éxito
         messagebox.showinfo("Eliminar Encuesta", "Encuesta eliminada exitosamente")
-
         # Limpiar el Treeview (opcional)
         limpiar_treeview(treeview)
-
         # Recargar las encuestas en el Treeview
         leer_encuestas(connection, treeview)
 
@@ -210,7 +198,7 @@ def visualizar_grafico(filtro, connection):
             print("No hay datos para 'Alta Frecuencia'.")
 
     elif filtro == "Perdida de Control":
-        query = "SELECT Edad, PerdidasControl FROM ENCUESTA WHERE PerdidasControl > 3"
+        query = "SELECT Edad, PerdidasControl FROM ENCUESTA WHERE PerdidasControl > 3 order by edad ASC"
         cursor.execute(query)
         datos = cursor.fetchall()
 
