@@ -43,3 +43,17 @@ Hito2/
 │
 ├── README.md                # Este archivo con la documentación
 └── requirements.txt         # Dependencias necesarias para ejecutar el proyecto
+
+```
+
+
+### b. **Ejemplos de Uso**
+Incluye capturas de pantalla o GIFs mostrando cómo funciona la aplicación:
+```markdown
+## Ejemplo de Uso
+### Pantalla principal
+![Pantalla principal](recursos/capturas/pantalla_principal.png)
+
+### Gráfico de barras
+![Gráfico de barras](recursos/capturas/grafico_barras.png)
+
