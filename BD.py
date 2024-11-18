@@ -15,7 +15,7 @@ style.configure("TButton",
                 padding=6,
                 relief="flat",
                 background="#4CAF50",  # Color de fondo del botón
-                foreground="white")  # Color de texto del botón
+                foreground="black")  # Color de texto del botón
 
 style.configure("TLabel",
                 background="#f0f0f0",  # Fondo de las etiquetas
@@ -31,6 +31,11 @@ style.configure("TTreeview",
                 foreground="black",
                 fieldbackground="#f9f9f9",
                 font=("Helvetica", 10))
+
+# Limpiar Treeview
+def limpiar_treeview(tree):
+    for item in tree.get_children():
+        tree.delete(item)
 
 def crear_encuesta(connection, entry_fields, treeview):
     cursor = connection.cursor()
@@ -57,54 +62,112 @@ def leer_encuestas(connection, tree):
     for encuesta in encuestas:
         tree.insert("", "end", values=encuesta)
 
-# Función para actualizar los datos en la base de datos (CRUD)
 def actualizar_encuesta(connection, entry_fields, tree):
-    # Obtener el ID de la encuesta desde el primer campo (ID)
-    id_encuesta = entry_fields[0].get()
-    
-    # Verificar que el ID no esté vacío
-    if not id_encuesta:
-        messagebox.showerror("Error", "Debe seleccionar una encuesta para actualizar.")
-        return
+    try:
+        # Obtener el ID de la encuesta desde la fila seleccionada del Treeview
+        selected_item = tree.selection()
+        
+        if not selected_item:
+            messagebox.showerror("Error", "Debe seleccionar una encuesta en el Treeview para actualizar.")
+            return
 
-    # Recoger los valores de los campos de entrada
-    values = tuple(field.get() for field in entry_fields[1:])  # Excluir el primer campo (ID) del tuple
-    values += (id_encuesta,)  # Agregar el ID al final de los valores para la consulta
+        # Obtener el ID de la encuesta de la fila seleccionada (asumiendo que el ID está en la primera columna)
+        id_encuesta = tree.item(selected_item[0])['values'][0]
+        
+        # Validar que el ID no esté vacío
+        if not id_encuesta:
+            messagebox.showerror("Error", "Debe seleccionar una encuesta válida.")
+            return
+        
+        # Recoger los valores de los campos de entrada (excluir el campo ID, que ya tenemos)
+        values = tuple(field.get().strip() for field in entry_fields)
+        
+        # Agregar el ID al final de los valores
+        values = values + (id_encuesta,)
 
-    # Ejecutar la consulta de actualización
-    cursor = connection.cursor()
-    query = """UPDATE ENCUESTA SET edad=%s, Sexo=%s, BebidasSemana=%s, CervezasSemana=%s, BebidasFinSemana=%s,
-               BebidasDestiladasSemana=%s, VinosSemana=%s, PerdidasControl=%s, DiversionDependenciaAlcohol=%s,
-               ProblemasDigestivos=%s, TensionAlta=%s, DolorCabeza=%s WHERE idEncuesta=%s"""
-    cursor.execute(query, values)
-    connection.commit()
+        # Imprimir los valores para depuración
+        print("Valores obtenidos:", values)
 
-    # Mostrar mensaje de éxito
-    messagebox.showinfo("Actualizar Encuesta", "Encuesta actualizada exitosamente")
-    
-    # Recargar las encuestas en el Treeview
-    leer_encuestas(connection, tree)
+        # Validar que el número de valores es correcto (13: 12 de los campos + 1 del ID)
+        if len(values) != 13:
+            raise ValueError(f"Se esperaban 13 valores, pero se proporcionaron {len(values)}.")
 
-# Función para eliminar una encuesta de la base de datos (CRUD)
-def eliminar_encuesta(connection, entry_fields, tree):
-    # Obtener el ID de la encuesta desde el primer campo (ID)
-    id_encuesta = entry_fields[0].get()
+        # Validar que no haya campos vacíos
+        if any(value == "" for value in values):
+            messagebox.showerror("Error", "Todos los campos deben estar llenos.")
+            return
 
-    # Verificar que el ID no esté vacío
-    if not id_encuesta:
-        messagebox.showerror("Error", "Debe seleccionar una encuesta para eliminar.")
-        return
+        # Preparar la consulta SQL
+        query = """
+        UPDATE ENCUESTA 
+        SET edad=%s, Sexo=%s, BebidasSemana=%s, CervezasSemana=%s, BebidasFinSemana=%s,
+            BebidasDestiladasSemana=%s, VinosSemana=%s, PerdidasControl=%s, 
+            DiversionDependenciaAlcohol=%s, ProblemasDigestivos=%s, TensionAlta=%s, 
+            DolorCabeza=%s 
+        WHERE idEncuesta=%s
+        """
 
-    # Ejecutar la consulta de eliminación
-    cursor = connection.cursor()
-    cursor.execute("DELETE FROM ENCUESTA WHERE idEncuesta = %s", (id_encuesta,))
-    connection.commit()
+        # Ejecutar la consulta
+        with connection.cursor() as cursor:
+            cursor.execute(query, values)
+            connection.commit()
 
-    # Mostrar mensaje de éxito
-    messagebox.showinfo("Eliminar Encuesta", "Encuesta eliminada exitosamente")
+        # Mostrar mensaje de éxito
+        messagebox.showinfo("Actualizar Encuesta", "Encuesta actualizada exitosamente")
 
-    # Recargar las encuestas en el Treeview
-    leer_encuestas(connection, tree)
+        # Recargar las encuestas en el Treeview
+        leer_encuestas(connection, tree)
+
+    except ValueError as ve:
+        # Captura errores de validación como ValueError
+        messagebox.showerror("Error de validación", str(ve))
+    except Exception as e:
+        # Manejo de errores genéricos
+        print(f"Error al actualizar la encuesta: {e}")
+        messagebox.showerror("Error", f"Ocurrió un error: {e}")
+
+
+
+
+def eliminar_encuesta(connection, entry_fields, treeview):
+    try:
+        # Obtener el ID de la encuesta desde el Treeview (fila seleccionada)
+        selected_item = treeview.selection()
+        
+        if not selected_item:
+            messagebox.showerror("Error", "Debe seleccionar una encuesta para eliminar.")
+            return
+        
+        # Obtener el ID de la encuesta de la fila seleccionada en el Treeview
+        id_encuesta = treeview.item(selected_item)["values"][0]  # Suponiendo que el ID está en la primera columna
+
+        # Verificar que el ID no esté vacío
+        if not id_encuesta:
+            messagebox.showerror("Error", "No se pudo obtener el ID de la encuesta.")
+            return
+
+        # Ejecutar la consulta de eliminación
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM ENCUESTA WHERE idEncuesta = %s", (id_encuesta,))
+        connection.commit()
+
+        # Mostrar mensaje de éxito
+        messagebox.showinfo("Eliminar Encuesta", "Encuesta eliminada exitosamente")
+
+        # Limpiar el Treeview (opcional)
+        limpiar_treeview(treeview)
+
+        # Recargar las encuestas en el Treeview
+        leer_encuestas(connection, treeview)
+
+    except Exception as e:
+        # Manejo de errores y depuración
+        print(f"Error al eliminar la encuesta: {e}")
+        messagebox.showerror("Error", f"Ocurrió un error: {e}")
+
+
+
+
 
 # Función para exportar los datos a un archivo Excel
 def exportar_excel(tree):
@@ -216,10 +279,7 @@ def visualizar_grafico(filtro, connection):
 
     
 
-# Limpiar Treeview
-def limpiar_treeview(tree):
-    for item in tree.get_children():
-        tree.delete(item)
+
 
 def seleccionar_fila(event, entry_fields, treeview):
     # Obtener el item seleccionado
@@ -270,16 +330,20 @@ def open_main_window(connection):
     # Botones CRUD
     buttons_frame = ttk.Frame(main_window, padding=10)
     buttons_frame.pack(pady=20)
-    ttk.Button(buttons_frame, text="Crear Encuesta", command=lambda: crear_encuesta(connection, entry_fields, treeview)).grid(row=0, column=0, padx=10)
+
+    ttk.Button(buttons_frame, text="Mostrar Encuestas", command=lambda: leer_encuestas(connection, treeview)).grid(row=0,column=0, padx=10)
+
+    ttk.Button(buttons_frame, text="Crear Encuesta", command=lambda: crear_encuesta(connection, entry_fields, treeview)).grid(row=0, column=1, padx=10)
    # Llamada a los botones con los parámetros correctos
     ttk.Button(buttons_frame, text="Actualizar Encuesta", 
-           command=lambda: actualizar_encuesta(connection, entry_fields, treeview)).grid(row=0, column=1, padx=10)
+           command=lambda: actualizar_encuesta(connection, entry_fields, treeview)).grid(row=0, column=2, padx=10)
 
     ttk.Button(buttons_frame, text="Eliminar Encuesta", 
-           command=lambda: eliminar_encuesta(connection, entry_fields, treeview)).grid(row=0, column=2, padx=10)
+           command=lambda: eliminar_encuesta(connection, entry_fields, treeview)).grid(row=0, column=3, padx=10)
 
     ttk.Button(buttons_frame, text="Exportar a Excel", 
-           command=lambda: exportar_excel(treeview)).grid(row=0, column=3, padx=10)
+           command=lambda: exportar_excel(treeview)).grid(row=0, column=4, padx=10)
+    
 
 
     # Botones de consultas
@@ -302,9 +366,6 @@ def open_main_window(connection):
 
     main_window.protocol("WM_DELETE_WINDOW", on_closing)
     main_window.mainloop()
-
-
-
 
 # Función de conexión
 def connect(user, password):
@@ -347,7 +408,8 @@ password_entry = ttk.Entry(root, show="*")
 password_entry.pack(pady=5)
 
 
-
 ttk.Button(root, text="Iniciar sesión", command=iniciar_sesion).pack(pady=20)
 
+
+#Iniciar la interfaz de inicio de sesión
 root.mainloop()
