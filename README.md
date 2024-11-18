@@ -46,19 +46,6 @@ Hito2/
 
 ```
 
-
-### b. **Ejemplos de Uso**
-Incluye capturas de pantalla o GIFs mostrando cómo funciona la aplicación:
-```markdown
-## Ejemplo de Uso
-### Pantalla principal
-![Pantalla principal](recursos/capturas/pantalla_principal.png)
-
-### Gráfico de barras
-![Gráfico de barras](recursos/capturas/grafico_barras.png)
-
-
-```
 # Funciones
 ## Operaciones CRUD
 ### Crear Encuesta: 
@@ -91,7 +78,7 @@ Proporción de problemas de salud relacionados con el consumo de alcohol.
 Capturas de Pantalla
 ```markdown
 
-[Pantalla principal](recursos/pantalla_principal.jpg)
+[Pantalla principal](Recursos/pantalla_principal.jpg)
 
 Ejemplo de Gráficos:
 [Graficos]
