@@ -59,23 +59,33 @@ Incluye capturas de pantalla o GIFs mostrando cómo funciona la aplicación:
 
 
 ```
-### Funciones
+# Funciones
 ## Operaciones CRUD
-# Crear Encuesta: Inserta nuevos registros en la base de datos utilizando los datos introducidos por el usuario.
-# Leer Encuestas: Muestra todas las encuestas almacenadas en un Treeview.
-# Actualizar Encuesta: Modifica los datos de un registro existente seleccionado en el Treeview.
-# Eliminar Encuesta: Elimina un registro seleccionado y actualiza la tabla visualizada.
+### Crear Encuesta: 
+Inserta nuevos registros en la base de datos utilizando los datos introducidos por el usuario.
+### Leer Encuestas: 
+Muestra todas las encuestas almacenadas en un Treeview.
+### Actualizar Encuesta: 
+Modifica los datos de un registro existente seleccionado en el Treeview.
+### Eliminar Encuesta: 
+Elimina un registro seleccionado y actualiza la tabla visualizada.
 ## Filtros y Consultas:
-# Alta Frecuencia: Muestra registros con consumo semanal mayor a 10 bebidas.
-# Pérdida de Control: Filtra encuestas donde el usuario ha perdido el control más de tres veces.
-# Problemas de Salud: Analiza encuestas con problemas frecuentes como tensión alta y dolores de cabeza.
+### Alta Frecuencia: 
+Muestra registros con consumo semanal mayor a 10 bebidas.
+### Pérdida de Control: 
+Filtra encuestas donde el usuario ha perdido el control más de tres veces.
+### Problemas de Salud: 
+Analiza encuestas con problemas frecuentes como tensión alta y dolores de cabeza.
 ## Exportación a Excel
-# Genera un archivo Excel con todos los datos mostrados en el Treeview.
+### Genera un archivo Excel con todos los datos mostrados en el Treeview.
 
-###Gráficos
-##Gráficos de Barras: Consumo semanal por edad.
-##Gráficos de Líneas: Pérdidas de control por edad.
-##Gráficos Circulares: Proporción de problemas de salud relacionados con el consumo de alcohol.
+# Gráficos
+## Gráficos de Barras: C
+onsumo semanal por edad.
+## Gráficos de Líneas: 
+Pérdidas de control por edad.
+## Gráficos Circulares: 
+Proporción de problemas de salud relacionados con el consumo de alcohol.
 
 
 Capturas de Pantalla
