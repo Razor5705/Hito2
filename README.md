@@ -57,3 +57,14 @@ Incluye capturas de pantalla o GIFs mostrando cómo funciona la aplicación:
 ### Gráfico de barras
 ![Gráfico de barras](recursos/capturas/grafico_barras.png)
 
+
+```
+## Pruebas
+Ejecuta las pruebas unitarias con:
+```bash
+python -m unittest discover tests
+
+```
+
+
+
