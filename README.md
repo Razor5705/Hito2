@@ -59,12 +59,92 @@ Incluye capturas de pantalla o GIFs mostrando cómo funciona la aplicación:
 
 
 ```
-## Pruebas
-Ejecuta las pruebas unitarias con:
-```bash
-python -m unittest discover tests
+###Funciones
+##Operaciones CRUD
+#Crear Encuesta: Inserta nuevos registros en la base de datos utilizando los datos introducidos por el usuario.
+#Leer Encuestas: Muestra todas las encuestas almacenadas en un Treeview.
+#Actualizar Encuesta: Modifica los datos de un registro existente seleccionado en el Treeview.
+#Eliminar Encuesta: Elimina un registro seleccionado y actualiza la tabla visualizada.
+##Filtros y Consultas:
+#Alta Frecuencia: Muestra registros con consumo semanal mayor a 10 bebidas.
+#Pérdida de Control: Filtra encuestas donde el usuario ha perdido el control más de tres veces.
+#Problemas de Salud: Analiza encuestas con problemas frecuentes como tensión alta y dolores de cabeza.
+##Exportación a Excel
+#Genera un archivo Excel con todos los datos mostrados en el Treeview.
+
+###Gráficos
+##Gráficos de Barras: Consumo semanal por edad.
+##Gráficos de Líneas: Pérdidas de control por edad.
+##Gráficos Circulares: Proporción de problemas de salud relacionados con el consumo de alcohol.
+
+
+Capturas de Pantalla
+```markdown
+
+[Pantalla principal](recursos/pantalla_principal.jpg)
+
+Ejemplo de Gráficos:
+[Graficos]
+[Barras]
+(Recursos/Grafico_Barras.png)
+
+[Lineas]
+(Recursos/Grafico_Lineas.png)
+
+[Grafico Circular]
+(Recursos/Grafico_Circular.png)
 
 ```
+Instrucciones de Uso
+# 1º Clonar el repositorio:
+
+```
+git clone <URL-del-repositorio>
+cd Hito2
+
+```
+# 2º Instalar dependencias:
+```
+pip install -r requirements.txt
+```
+
+# 3º Configurar la base de datos:
+
+Ejecutar encuestas.sql en MySQL para crear la tabla.
+Actualizar las credenciales de conexión en BD.py o conexion.py.
+
+# 4º Ejecutar la aplicación:
+
+```
+python BD.py
+```
+# 5º Operaciones disponibles:
+
+Registrar: Completar los campos y presionar "Crear Encuesta".
+Actualizar: Seleccionar un registro en el Treeview, modificar los campos y presionar "Actualizar Encuesta".
+Eliminar: Seleccionar un registro en el Treeview y presionar "Eliminar Encuesta".
+Exportar: Presionar "Exportar a Excel" para guardar los datos.
+
+Referencias
+
+World Health Organization (WHO):
+https://www.who.int/
+TkDocs:
+https://www.tkdocs.com/
+MySQL Documentation:
+https://dev.mysql.com/
+Matplotlib Documentation:
+https://matplotlib.org/
+Guía de Git y GitHub:
+https://www.freecodecamp.org/espanol/news/guia-para-principiantes-de-git-y-github/
+
+
+
+
+
+
+
+
 
 
 
