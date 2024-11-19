@@ -66,6 +66,22 @@ Analiza encuestas con problemas frecuentes como tensión alta y dolores de cabez
 ## Exportación a Excel
 ### Genera un archivo Excel con todos los datos mostrados en el Treeview.
 
+---
+
+```python
+def exportar_excel(tree):
+    datos = [tree.item(row)["values"] for row in tree.get_children()]
+    df = pd.DataFrame(datos, columns=["ID", "Edad", "Sexo", "BebidasSemana", 
+                                      "CervezasSemana", "BebidasFinSemana", 
+                                      "BebidasDestiladasSemana", "VinosSemana", 
+                                      "PerdidasControl", "DiversionDependenciaAlcohol", 
+                                      "ProblemasDigestivos", "TensionAlta", "DolorCabeza"])
+    df.to_excel("reporte_encuestas.xlsx", index=False)
+    messagebox.showinfo("Exportar", "Datos exportados a Excel correctamente")
+```
+
+---
+
 # Gráficos
 ## Gráficos de Barras: 
 Consumo semanal por edad.
@@ -74,6 +90,7 @@ Pérdidas de control por edad.
 ## Gráficos Circulares: 
 Proporción de problemas de salud relacionados con el consumo de alcohol.
 
+---
 
 Capturas de Pantalla
 ```markdown
@@ -89,6 +106,9 @@ Ejemplo de Gráficos:
 [Grafico Circular](Recursos/Grafico_Circular.png)
 
 ```
+
+---
+
 Instrucciones de Uso
 # 1º Clonar el repositorio:
 
@@ -107,6 +127,29 @@ pip install -r requirements.txt
 Ejecutar encuestas.sql en MySQL para crear la tabla.
 Actualizar las credenciales de conexión en BD.py o conexion.py.
 
+```sql
+CREATE DATABASE ENCUESTAS;
+USE ENCUESTAS;
+
+CREATE TABLE ENCUESTA (
+    idEncuesta INT AUTO_INCREMENT PRIMARY KEY,
+    edad INT NOT NULL,
+    Sexo VARCHAR(10) NOT NULL,
+    BebidasSemana INT NOT NULL,
+    CervezasSemana INT NOT NULL,
+    BebidasFinSemana INT NOT NULL,
+    BebidasDestiladasSemana INT NOT NULL,
+    VinosSemana INT NOT NULL,
+    PerdidasControl INT NOT NULL,
+    DiversionDependenciaAlcohol VARCHAR(10) NOT NULL,
+    ProblemasDigestivos VARCHAR(10) NOT NULL,
+    TensionAlta VARCHAR(10) NOT NULL,
+    DolorCabeza VARCHAR(10) NOT NULL
+);
+
+```
+
+
 # 4º Ejecutar la aplicación:
 
 ```
@@ -114,10 +157,16 @@ python BD.py
 ```
 # 5º Operaciones disponibles:
 
-Registrar: Completar los campos y presionar "Crear Encuesta".
-Actualizar: Seleccionar un registro en el Treeview, modificar los campos y presionar "Actualizar Encuesta".
-Eliminar: Seleccionar un registro en el Treeview y presionar "Eliminar Encuesta".
-Exportar: Presionar "Exportar a Excel" para guardar los datos.
+Registrar: 
+Completar los campos y presionar "Crear Encuesta".
+Actualizar: 
+Seleccionar un registro en el Treeview, modificar los campos y presionar "Actualizar Encuesta".
+Eliminar: 
+Seleccionar un registro en el Treeview y presionar "Eliminar Encuesta".
+Exportar: 
+Presionar "Exportar a Excel" para guardar los datos.
+
+---
 
 Referencias
 
@@ -132,7 +181,7 @@ https://matplotlib.org/
 Guía de Git y GitHub:
 https://www.freecodecamp.org/espanol/news/guia-para-principiantes-de-git-y-github/
 
-
+---
 
 
 
