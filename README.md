@@ -361,21 +361,21 @@ python BD.py
 ```
 # 5º Operaciones disponibles:
 
-Mostrar:
+### Mostrar:
 Lee las encuestas nuevamente si no se actualiza la lista
-Registrar: 
+### Registrar: 
 Completar los campos y presionar "Crear Encuesta".
-Actualizar: 
+### Actualizar: 
 Seleccionar un registro en el Treeview, modificar los campos y presionar "Actualizar Encuesta".
-Eliminar: 
+### Eliminar: 
 Seleccionar un registro en el Treeview y presionar "Eliminar Encuesta".
-Exportar: 
+### Exportar: 
 Presionar "Exportar a Excel" para guardar los datos.
-Alta Frecuencia:
+### Alta Frecuencia:
 Muestra el filtro en un grafico de barras
-Perdidas de Control:
+### Perdidas de Control:
 Muestra este filtro en un gráfico de líneas
-Problemas de Salud:
+### Problemas de Salud:
 Muestra este filtro en un gráfico circular
 
 ---
